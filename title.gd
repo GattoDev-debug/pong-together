@@ -4,11 +4,10 @@ var Ball = preload("res://ball.tscn")
 var opponent_id : int
 var gr : bool
 @export var gpaused : bool
-const PORT := 7777
 var enet_peer = ENetMultiplayerPeer.new()
 func _on_button_pressed() -> void:
 	$menu.hide()
-	enet_peer.create_server(PORT)
+	enet_peer.create_server(int($menu/TextEdit2.text))
 	multiplayer.multiplayer_peer = enet_peer
 	multiplayer.peer_connected.connect(create_player)
 	multiplayer.peer_disconnected.connect(remove_player)
@@ -18,7 +17,7 @@ func _on_button_pressed() -> void:
 	gpaused = true
 func _on_button_2_pressed() -> void:
 	$menu.hide()
-	enet_peer.create_client($menu/TextEdit.text, PORT)
+	enet_peer.create_client($menu/TextEdit.text, int($menu/TextEdit2.text))
 	multiplayer.multiplayer_peer = enet_peer
 	create_player(multiplayer.get_unique_id())
 	create_ball(multiplayer.get_unique_id())
@@ -64,6 +63,7 @@ func _show_popup(title: String, message: String, is_success: bool) -> void:
 	dialog.canceled.connect(func(): dialog.queue_free())
 func _process(delta: float) -> void:
 	get_tree().paused = gpaused
+	$menu/TextEdit3.text = $menu/TextEdit2.text
 
 func _on_area_2d_3_area_entered(area: Area2D) -> void:
 	if area.ball:
