@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://lirqxyy160ci"]
+
+[ext_resource type="PackedScene" uid="uid://clpdqyj07yqhf" path="res://ball.tscn" id="1_37kl0"]
+[ext_resource type="Script" uid="uid://6yd8aorplf7u" path="res://ceiling.gd" id="2_8uh7m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_37kl0"]
+size = Vector2(816, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ppyta"]
+size = Vector2(28, 604)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Ball" parent="." instance=ExtResource("1_37kl0")]
+position = Vector2(393, 246)
+scale = Vector2(3, 3)
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("2_8uh7m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(398, 0)
+shape = SubResource("RectangleShape2D_37kl0")
+
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(-10, 289)
+shape = SubResource("RectangleShape2D_ppyta")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(801, 301)
+shape = SubResource("RectangleShape2D_ppyta")
+
+[connection signal="area_entered" from="Area2D" to="Area2D" method="_on_area_entered"]
+[connection signal="area_entered" from="Area2D2" to="Area2D2" method="_on_area_entered"]

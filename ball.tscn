@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://clpdqyj07yqhf"]
+
+[ext_resource type="Script" uid="uid://ddm8h3svikoic" path="res://ball.gd" id="1_41u45"]
+[ext_resource type="Texture2D" uid="uid://dyfr0q24yh4pj" path="res://ball.png" id="1_x8fbi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_41u45"]
+radius = 5.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_41u45"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:scale")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:_speed")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:direction")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[node name="Ball" type="Area2D"]
+process_mode = 1
+script = ExtResource("1_41u45")
+
+[node name="Ball" type="Sprite2D" parent="."]
+texture = ExtResource("1_x8fbi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_41u45")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_41u45")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
