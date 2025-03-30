@@ -67,12 +67,14 @@ func _process(delta: float) -> void:
 
 func _on_area_2d_3_area_entered(area: Area2D) -> void:
 	if area.ball:
+		$AudioStreamPlayer.play()
 		get_node_or_null(str(1)).score += 1
 		area.position = Vector2(393, 246)
 
 
 func _on_area_2d_4_area_entered(area: Area2D) -> void:
 	if area.ball:
+		$AudioStreamPlayer.play()
 		get_node_or_null(str(opponent_id)).score += 1
 		area.position = Vector2(393, 246)
 		

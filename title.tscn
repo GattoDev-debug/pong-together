@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://druvdlfuby0qh"]
+[gd_scene load_steps=16 format=3 uid="uid://druvdlfuby0qh"]
 
 [ext_resource type="Script" uid="uid://duj8k5ui3jnd" path="res://title.gd" id="1_y7k74"]
 [ext_resource type="FontFile" uid="uid://bajl5oh84qbn5" path="res://pong-score.ttf" id="2_3xoar"]
 [ext_resource type="Script" uid="uid://6yd8aorplf7u" path="res://ceiling.gd" id="2_kpexm"]
 [ext_resource type="Shader" uid="uid://1xmn6ujxctpd" path="res://new_shader.gdshader" id="4_3xoar"]
+[ext_resource type="Script" uid="uid://cs5xfk5yluku" path="res://animation.gd" id="5_mom7w"]
+[ext_resource type="AudioStream" uid="uid://1v4j26ulkyjn" path="res://score.mp3" id="6_7lgly"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mom7w"]
 size = Vector2(816, 20)
@@ -13,14 +15,14 @@ size = Vector2(25, 576)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mom7w"]
 shader = ExtResource("4_3xoar")
-shader_parameter/resolution = Vector2(0, 0)
+shader_parameter/resolution = Vector2(500, 400)
 shader_parameter/scan_line_amount = 1.0
-shader_parameter/warp_amount = 1.0
-shader_parameter/noise_amount = 0.03
+shader_parameter/warp_amount = 0.0
+shader_parameter/noise_amount = 0.2
 shader_parameter/interference_amount = 0.2
 shader_parameter/grille_amount = 1.0
 shader_parameter/grille_size = 1.0
-shader_parameter/vignette_amount = 1.0
+shader_parameter/vignette_amount = 0.6
 shader_parameter/vignette_intensity = 0.4
 shader_parameter/aberation_amount = 0.5
 shader_parameter/roll_line_amount = 0.3
@@ -35,18 +37,31 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/Sprite2D:material:shader_parameter/resolution")
+tracks/0/path = NodePath("CanvasLayer/Sprite2D:material:shader_parameter/noise_amount")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 0)]
+"values": [0.2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Sprite2D:material:shader_parameter/warp_amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_3xoar"]
 resource_name = "new_animation"
+length = 3.578
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -54,16 +69,70 @@ tracks/0/path = NodePath("CanvasLayer/Sprite2D:material:shader_parameter/resolut
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(3.24901, 1),
+"times": PackedFloat32Array(0.8, 1),
+"transitions": PackedFloat32Array(0.707107, 0.68302),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(500, 400)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Sprite2D:material:shader_parameter/grille_size")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.633333, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [5.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/Sprite2D:material:shader_parameter/noise_amount")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.966667, 2.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.3, 0.03]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/Sprite2D:material:shader_parameter/warp_amount")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.64, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [5.0, 0.1]
+}
+
+[sub_resource type="Animation" id="Animation_7lgly"]
+resource_name = "new_animation_2"
+length = 25.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Sprite2D:material:shader_parameter/noise_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.6, 2.6, 7.93333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.03, 0.2, 0.03]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7lgly"]
 _data = {
 &"RESET": SubResource("Animation_mom7w"),
-&"new_animation": SubResource("Animation_3xoar")
+&"new_animation": SubResource("Animation_3xoar"),
+&"new_animation_2": SubResource("Animation_7lgly")
 }
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3xoar"]
@@ -73,6 +142,12 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath("..:gpaused")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+properties/2/path = NodePath("../Control/Label:text")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("../Control/Label2:text")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="Node2D" type="Node2D"]
 process_mode = 3
@@ -204,11 +279,53 @@ libraries = {
 &"": SubResource("AnimationLibrary_7lgly")
 }
 autoplay = "new_animation"
-speed_scale = 1.995
+speed_scale = 1.205
+script = ExtResource("5_mom7w")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("../MultiplayerSpawner")
 replication_config = SubResource("SceneReplicationConfig_3xoar")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_left = 396.0
+offset_top = 13.0
+offset_right = 400.0
+offset_bottom = 74.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 13.0
+offset_right = 419.0
+offset_bottom = 74.0
+theme_override_fonts/font = ExtResource("2_3xoar")
+theme_override_font_sizes/font_size = 61
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 407.0
+offset_top = 13.0
+offset_right = 793.0
+offset_bottom = 74.0
+theme_override_fonts/font = ExtResource("2_3xoar")
+theme_override_font_sizes/font_size = 61
+text = "0"
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_7lgly")
+volume_db = 2.0
+mix_target = 2
 
 [connection signal="pressed" from="menu/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="menu/Button2" to="." method="_on_button_2_pressed"]
@@ -216,3 +333,4 @@ replication_config = SubResource("SceneReplicationConfig_3xoar")
 [connection signal="area_entered" from="Area2D2" to="Area2D2" method="_on_area_entered"]
 [connection signal="area_entered" from="Area2D3" to="." method="_on_area_2d_3_area_entered"]
 [connection signal="area_entered" from="Area2D4" to="." method="_on_area_2d_4_area_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_animation_finished"]

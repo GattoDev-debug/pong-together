@@ -24,7 +24,12 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	$Label.text = str(score)
+	# Update the correct label based on node name
+	if name.to_int() == 1:
+		get_parent().get_node("Control/Label").text = str(score)
+	else:
+		get_parent().get_node("Control/Label2").text = str(score)
+	
 	# Set ball direction based on paddle position
 	if position.x == 45:  # Left paddle
 		_ball_dir = 1
@@ -41,7 +46,7 @@ func _process(delta: float) -> void:
 		position.y += 5
 	
 	# Keep paddle within screen bounds
-	position.y = clamp(position.y, 16, _screen_size_y - 16)
+	position.y = clamp(position.y, 16, _screen_size_y)
 
 
 func _on_area_entered(area):
@@ -49,3 +54,4 @@ func _on_area_entered(area):
 		var hit_pos_rel = (area.position.y - position.y) / 50.0  # Adjust divisor for sensitivity
 		var new_dir = Vector2(_ball_dir, clamp(hit_pos_rel, -0.9, 0.9)).normalized()
 		area.direction = new_dir
+		area.sound()
